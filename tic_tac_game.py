@@ -10,6 +10,11 @@ Players take turns putting their marks in empty squares.
 The first player to get three of their marks in a row (vertically, horizontally, or diagonally) is the winner.
 If all nine squares are full and neither player has three in a row, the game ends in a draw.
 """
+
+'''
+Tic-Tac-Toe: Game
+Author: Bro. Eugene Kartey
+'''
 import random
 
 def main():
@@ -19,17 +24,14 @@ def main():
         create_board(board)
         player_input(board)
         checkwin()
-        quit_game()
         chktie(board)
         switch_player()
         computer(board)
         checkwin()
-        quit_game()
         chktie(board)
 
-
-        winner = checkwin()
-        print(winner)
+    print("Good game. Thanks for playing!") 
+        
 
 
 
@@ -37,9 +39,11 @@ board=["-","-","-",
         "-","-","-",
         "-","-","-"]
     
-player1 = "X"
+current_player = "X"
 winner = None
 game_in_progress = True
+
+#creating the tictactoe board
 
 def create_board(board):
     print(board[0] + " | " + board[1] + " | " + board[2])
@@ -48,19 +52,22 @@ def create_board(board):
     print("-----------")
     print(board[6] + " | " + board[7] + " | " + board[8])
     
-    
+
+#Player input
+   
 def player_input(board):
     
     user_input = int(input('Please a number 1-9: '))
     
     if user_input >= 1 and user_input <= 9 and board[user_input - 1] == "-":
-        board[user_input-1] = player1
+        board[user_input-1] = current_player
         
     else:
         print('The space has already been filled. Try again!')
     
 
-#check win or tie
+#check win in horizontal, vertical and diagonal of the board
+
 def chkhorizontal(board):
     global winner
     if board[0] == board[1] == board[2] and board[1]  != "-":
@@ -95,6 +102,7 @@ def chkdiag(board):
         winner = board[6]
         return True
    
+# checking tie
 
 def chktie(board):
     global game_in_progress
@@ -103,28 +111,33 @@ def chktie(board):
         print('It is a tie!')
         game_in_progress = False
 
+#checking win
+
 def checkwin():
+    global game_in_progress
     if chkhorizontal(board) or chkvertrow(board) or chkdiag(board):
-        return(f'The winner is {winner}(Player1)')
+        print(f'The winner is {winner}')
+        game_in_progress = False
+
+# switching players
 
 def switch_player():
-    global player1
-    if player1 == "X":
-        player1 = "O"
+    global current_player
+    if current_player == "X":
+        current_player = "O"
     else:
-        player1 = "X"
+        current_player = "X"
 
+
+# Player2 is computer
 def computer(board):
-    while player1 == "O":
+    while current_player == "O":
         position = random.randint(0,8)
         if board[position] == "-":
             board[position] = "O"
             switch_player()
 
-def quit_game():
-    if checkwin == True :
-        return ('Game over')
-    else:
-        return('Continue playing')
 
-main()
+
+if __name__ == "__main__":
+    main()
